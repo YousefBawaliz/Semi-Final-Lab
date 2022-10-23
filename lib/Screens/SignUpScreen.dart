@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
@@ -88,6 +89,14 @@ class _SignUpPageState extends State<SignUpPage> {
               colors: [Color(0xfffbb448), Color(0xfff7892b)])),
       child: TextButton(
         onPressed: onTap,
+        // onPressed: () {
+        //   onTap;
+        //   Navigator.pop(
+        //       context,
+        //       MaterialPageRoute(
+        //         builder: (context) => Login_screen(),
+        //       ));
+        // },
         child: Text(
           'Register Now',
           style: TextStyle(fontSize: 20, color: Colors.white),
@@ -175,10 +184,21 @@ class _SignUpPageState extends State<SignUpPage> {
   //firebase sign up function:
   void signUpUser() async {
     //imported from the firebaseauthmethods class that we created. (FirebaseAuthMethods(this._auth);)
-    FirebaseAuthMethods(FirebaseAuth.instance).signUpwithEmail(
-        email: emailController.text,
-        password: passwordController.text,
-        context: context);
+    FirebaseAuthMethods(FirebaseAuth.instance)
+        .signUpwithEmail(
+            email: emailController.text,
+            password: passwordController.text,
+            context: context)
+        .then((value) async {
+      User? user = FirebaseAuth.instance.currentUser;
+
+      await FirebaseFirestore.instance.collection("users").doc(user?.uid).set({
+        'uid': user?.uid,
+        'email': emailController.text,
+        'password': passwordController.text,
+        'role': 'user'
+      });
+    });
   }
 
   @override

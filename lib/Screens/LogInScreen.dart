@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:signin_singnup/Screens/AdminPage.dart';
+import 'package:signin_singnup/Screens/splashScreen.dart';
 import 'package:signin_singnup/services/firebase_auth_methods.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'Resetpassword.dart';
@@ -92,7 +93,7 @@ class _Login_screenState extends State<Login_screen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => AdminPage(),
+                            builder: (context) => SplashScreen(),
                           ));
                     },
                   )),
